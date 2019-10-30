@@ -1,0 +1,5 @@
+/toolchain
+*.specs
+
+*.o
+*.elf

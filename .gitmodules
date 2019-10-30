@@ -1,0 +1,6 @@
+[submodule "source-sdk"]
+	path = vendor/source-sdk
+	url = https://github.com/ValveSoftware/source-sdk-2013
+[submodule "vendor/musl"]
+	path = vendor/musl
+	url = git://git.musl-libc.org/musl
