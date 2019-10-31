@@ -1,6 +1,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 #include "unfork.hh"
 
 static void log(const char *format, ...) __attribute__((format (printf, 1, 2)));
@@ -152,25 +153,35 @@ int agent() {
   IClientEntity *local_player = VClientEntityList003->GetClientEntity(local_player_index);
   log("[=] local player index is %d\n", local_player_index);
 
-  log("[@] local player score is %d (%d kills)\n",
-    get_entity_prop<int>(tf_player_resource, offset_m_iScore, local_player_index),
-    get_entity_prop<int>(tf_player_resource, offset_m_iTotalScore, local_player_index));
-  log("[@] local player health is %d/%d(%d)\n",
-    get_entity_prop<int>(tf_player_resource, offset_m_iHealth, local_player_index),
-    get_entity_prop<int>(tf_player_resource, offset_m_iMaxHealth, local_player_index),
-    get_entity_prop<int>(tf_player_resource, offset_m_iMaxBuffedHealth, local_player_index));
-  log("[@] local player damage is %d(%d)\n",
-    get_entity_prop<int>(tf_player_resource, offset_m_iDamage, local_player_index),
-    get_entity_prop<int>(tf_player_resource, offset_m_iDamageAssist, local_player_index));
-  log("[@] local player healing is %d(%d)\n",
-    get_entity_prop<int>(tf_player_resource, offset_m_iHealing, local_player_index),
-    get_entity_prop<int>(tf_player_resource, offset_m_iHealingAssist, local_player_index));
+  while (1) {
+    log("[@] local player score is %d (%d kills)\n",
+      get_entity_prop<int>(tf_player_resource, offset_m_iScore, local_player_index),
+      get_entity_prop<int>(tf_player_resource, offset_m_iTotalScore, local_player_index));
 
-  CBaseHandle active_weapon_handle =
-    get_entity_prop<CBaseHandle>(local_player, offset_m_hActiveWeapon);
-  IClientEntity *active_weapon =
-    VClientEntityList003->GetClientEntityFromHandle(active_weapon_handle);
-  log("[@] local player weapon class is %s\n", active_weapon->GetClientClass()->GetName());
+    log("[@] local player score is %d (%d kills)\n",
+      get_entity_prop<int>(tf_player_resource, offset_m_iScore, local_player_index),
+      get_entity_prop<int>(tf_player_resource, offset_m_iTotalScore, local_player_index));
+
+    log("[@] local player health is %d/%d(%d)\n",
+      get_entity_prop<int>(tf_player_resource, offset_m_iHealth, local_player_index),
+      get_entity_prop<int>(tf_player_resource, offset_m_iMaxHealth, local_player_index),
+      get_entity_prop<int>(tf_player_resource, offset_m_iMaxBuffedHealth, local_player_index));
+    log("[@] local player damage is %d(%d)\n",
+      get_entity_prop<int>(tf_player_resource, offset_m_iDamage, local_player_index),
+      get_entity_prop<int>(tf_player_resource, offset_m_iDamageAssist, local_player_index));
+    log("[@] local player healing is %d(%d)\n",
+      get_entity_prop<int>(tf_player_resource, offset_m_iHealing, local_player_index),
+      get_entity_prop<int>(tf_player_resource, offset_m_iHealingAssist, local_player_index));
+
+    CBaseHandle active_weapon_handle =
+      get_entity_prop<CBaseHandle>(local_player, offset_m_hActiveWeapon);
+    IClientEntity *active_weapon =
+      VClientEntityList003->GetClientEntityFromHandle(active_weapon_handle);
+    log("[@] local player weapon class is %s\n", active_weapon->GetClientClass()->GetName());
+
+    sleep(1);
+    flush_process();
+  }
 
   return 0;
 }
