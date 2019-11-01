@@ -13,6 +13,14 @@ Build the agent:
 
 ## Using
 
+To enable the InfluxDB collector, use:
+
+    export INFLUXDB="localhost::/write?db=<db>&precision=ms"
+
+(Yes, you can use Grafana with TF2 now. Looks like this.)
+
+![Grafana + TF2](grafana.png)
+
 Run the agent:
 
     ./tf2_healslut.elf $(pidof hl2_linux)
