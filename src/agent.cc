@@ -1,3 +1,7 @@
+// We're trying to get an object file built against glibc to link against musl, which is naughty.
+// It does work though if hardening is disabled.
+#undef _FORTIFY_SOURCE
+
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
